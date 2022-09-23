@@ -24,21 +24,6 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true,
       tableName: 'users'
     });
-
-    // Patient_surgeries.associate = (models) => {
-    //   models.Patient.belongsToMany(models.Surgerie,{
-    //     foreignKey: 'patientId',
-    //     otherKey: 'surgeryId',
-    //     through: Patient_surgeries,
-    //     as: 'sugeries'
-    //   })
-    //   models.Surgerie.belongsToMany(models.Patient,{
-    //     foreignKey: 'surgeryId',
-    //     otherKey: 'patientId',
-    //     through: Patient_surgeries,
-    //     as: 'patients'
-    //   })
-    // }
-
+ 
   return User;
 };
