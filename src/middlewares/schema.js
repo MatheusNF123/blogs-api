@@ -20,8 +20,12 @@ const validaCreateUser = (body) => Joi.object({
   password: Joi.string().min(6).required(),
    image: Joi.string(),
 }).validate(body);
+const validaCreateCategory = (body) => Joi.object({
+  name: Joi.string().required(),
+}).validate(body);
 
 module.exports = {
   validaCampo,
   validaCreateUser,
+  validaCreateCategory,
 };
