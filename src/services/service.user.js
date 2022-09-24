@@ -20,9 +20,8 @@ const getUser = async () => {
 const getUserById = async (id) => {
   const user = await User.findByPk(id, { attributes: { exclude: 'password' },
   });
-  console.log(user, 'fora');
+
   if (!user) {
-    console.log('dentro do if', user);
     const err = { status: 404, message: 'User does not exist' };
     throw err;
   }
