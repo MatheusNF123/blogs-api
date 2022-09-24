@@ -28,8 +28,24 @@ const getAll = async () => {
  
   return allCategory;
 };
+const getPostById = async (id) => {
+  const post = await BlogPost.findByPk(id, {
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+     ], 
+  });
+
+  if (!post) {
+    const err = { status: 404, message: 'Post does not exist' };
+    throw err;
+  }
+ 
+  return post;
+};
 
 module.exports = {
   createPost,
   getAll,
+  getPostById,
 };
