@@ -11,6 +11,6 @@ routers.post('/', validateBodyCreatePost, auth, controllerPost.createPost);
 routers.get('/', auth, controllerPost.getAll);
 routers.get('/:id', auth, controllerPost.getPostById);
 routers.put('/:id', validateBodyUpdatePost, auth, controllerPost.updatePostById);
-// routers.put('/:id', validateBodyUpdatePost, auth, controllerPost.deletePostById);
+routers.delete('/:id', auth, controllerPost.deletePostById);
 
 module.exports = routers;

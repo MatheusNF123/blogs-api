@@ -3,7 +3,8 @@ const { servicePost } = require('../services');
 const createPost = async (req, res, next) => {
   try {
     const { body } = req;
-    const postCreated = await servicePost.createPost({ ...body });
+    const { user } = req;
+    const postCreated = await servicePost.createPost({ ...body }, user);
    return res.status(201).json(postCreated);
   } catch (error) {
     next(error);
@@ -37,10 +38,19 @@ const updatePostById = async (req, res, next) => {
     next(error);
   }
 };
+const deletePostById = async (req, res, next) => {
+  try {
+    await servicePost.deletePostById(req);
+   return res.status(204).send();
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   createPost,
   getAll,
   getPostById,
   updatePostById,
+  deletePostById,
 };

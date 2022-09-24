@@ -1,6 +1,6 @@
 const { BlogPost, PostCategory, Category, User } = require('../models');
 
-const createPost = async (body) => {
+const createPost = async (body, user) => {
   const allCategory = await Category.findAll();
 
   const allCategoryIdExist = allCategory.some((el) => body.categoryIds.includes(el.id));
@@ -9,8 +9,8 @@ const createPost = async (body) => {
     const err = { status: 400, message: '"categoryIds" not found' };
     throw err;
   }
-
-  const post = await BlogPost.create({ ...body, userId: 1 });
+  const usuario = await User.findOne({ where: { email: user.email } });
+  const post = await BlogPost.create({ ...body, userId: usuario.id });
 
   await Promise.all(body.categoryIds
     .map((e) => PostCategory.create({ postId: post.id, categoryId: e })));
@@ -59,8 +59,27 @@ const updatePostById = async (req) => {
       { model: Category, as: 'categories', through: { attributes: [] } },
      ], 
   });
- console.log(post);
   return post;
+};
+const deletePostById = async (req) => {
+  const { user } = req;
+  const { id } = req.params;
+  const usuario = await User.findOne({ where: { email: user.email } });
+  const post = await BlogPost.findOne({ where: { id } });
+  
+  if (!post) {
+    const err = { status: 404, message: 'Post does not exist' };
+    throw err;
+  }
+  
+  const autorized = usuario.id === post.userId;
+console.log(autorized);
+  if (!autorized) {
+    const err = { status: 401, message: 'Unauthorized user' };
+    throw err;
+  }
+
+  await BlogPost.destroy({ where: { id } });
 };
 
 module.exports = {
@@ -68,4 +87,5 @@ module.exports = {
   getAll,
   getPostById,
   updatePostById,
+  deletePostById,
 };
