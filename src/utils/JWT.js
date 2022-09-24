@@ -14,6 +14,11 @@ const authTokenValidation = (token) => {
     return instrospection;
 };
 
+// const authUpdate = (id, usuario) => {
+//     const instrospection = jwt.verify(token, JWT_SECRET);
+//     return instrospection;
+// };
+
 module.exports = {
     generateToken,
     authTokenValidation,

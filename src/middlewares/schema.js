@@ -42,9 +42,20 @@ const validaCreatePost = (body) => Joi.object({
   }),
 }).validate(body);
 
+const validaUpdatePost = (body) => Joi.object({
+  title: Joi.string().required().messages({
+    'string.empty': SomeRequired,
+  }),
+  content: Joi.string().required().messages({
+    'string.empty': SomeRequired,
+    'any.required': SomeRequired,
+  }),
+}).validate(body);
+
 module.exports = {
   validaCampo,
   validaCreateUser,
   validaCreateCategory,
   validaCreatePost,
+  validaUpdatePost,
 };

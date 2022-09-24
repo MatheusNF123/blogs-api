@@ -2,7 +2,7 @@ const express = require('express');
 // const { validateBody } = require('../middlewares/bodyVerify');
 const { controllerPost } = require('../controllers');
 const { auth } = require('../middlewares/auth');
-const { validateBodyCreatePost } = require('../middlewares/bodyVerify');
+const { validateBodyCreatePost, validateBodyUpdatePost } = require('../middlewares/bodyVerify');
 // const { validateBodyCreateCategory } = require('../middlewares/bodyVerify');
 
 const routers = express.Router();
@@ -10,5 +10,7 @@ const routers = express.Router();
 routers.post('/', validateBodyCreatePost, auth, controllerPost.createPost);
 routers.get('/', auth, controllerPost.getAll);
 routers.get('/:id', auth, controllerPost.getPostById);
+routers.put('/:id', validateBodyUpdatePost, auth, controllerPost.updatePostById);
+// routers.put('/:id', validateBodyUpdatePost, auth, controllerPost.deletePostById);
 
 module.exports = routers;
