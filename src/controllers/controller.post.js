@@ -47,10 +47,20 @@ const deletePostById = async (req, res, next) => {
   }
 };
 
+const getPostByBySearch = async (req, res, next) => {
+  try {
+  const posts = await servicePost.getPostByBySearch(req);
+   return res.status(200).json(posts);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createPost,
   getAll,
   getPostById,
   updatePostById,
   deletePostById,
+  getPostByBySearch,
 };

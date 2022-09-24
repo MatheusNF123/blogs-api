@@ -7,6 +7,7 @@ const { validateBodyCreatePost, validateBodyUpdatePost } = require('../middlewar
 
 const routers = express.Router();
 
+routers.get('/search', auth, controllerPost.getPostByBySearch);
 routers.post('/', validateBodyCreatePost, auth, controllerPost.createPost);
 routers.get('/', auth, controllerPost.getAll);
 routers.get('/:id', auth, controllerPost.getPostById);
