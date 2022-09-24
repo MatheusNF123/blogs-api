@@ -8,6 +8,6 @@ const { validateBodyCreatePost } = require('../middlewares/bodyVerify');
 const routers = express.Router();
 
 routers.post('/', validateBodyCreatePost, auth, controllerPost.createPost);
-// routers.get('/', auth, controllerCategory.getCategory);
+routers.get('/', auth, controllerPost.getAll);
 
 module.exports = routers;

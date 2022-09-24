@@ -1,9 +1,4 @@
-const { BlogPost, PostCategory, Category } = require('../models');
-
-// const config = require('../config/config');
-
-// const env = process.env.NODE_ENV || 'development';
-// const sequelize = new Sequelize(config[env]);
+const { BlogPost, PostCategory, Category, User } = require('../models');
 
 const createPost = async (body) => {
   const allCategory = await Category.findAll();
@@ -19,11 +14,22 @@ const createPost = async (body) => {
 
   await Promise.all(body.categoryIds
     .map((e) => PostCategory.create({ postId: post.id, categoryId: e })));
-// console.log(post);
  
   return post;
+};
+const getAll = async () => {
+  const allCategory = await BlogPost.findAll(
+    { include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+     ] },
+     
+    );
+ 
+  return allCategory;
 };
 
 module.exports = {
   createPost,
+  getAll,
 };
