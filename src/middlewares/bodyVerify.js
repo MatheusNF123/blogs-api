@@ -1,4 +1,5 @@
-const { validaCampo, validaCreateUser, validaCreateCategory } = require('./schema');
+const { validaCampo, validaCreateUser,
+   validaCreateCategory, validaCreatePost } = require('./schema');
 
 const validateBody = (req, _res, next) => {
   const { email, password } = req.body;
@@ -28,9 +29,19 @@ const validateBodyCreateCategory = (req, res, next) => {
   }
   next();
 };
+const validateBodyCreatePost = (req, res, next) => {
+  const { body } = req;
+  const { error } = validaCreatePost({ ...body });
+  if (error) {
+    const err = { status: 400, message: error.message };  
+   return next(err);
+  }
+  next();
+};
 
 module.exports = {
   validateBody,
   validateBodyCreatUser,
   validateBodyCreateCategory,
+  validateBodyCreatePost,
 };
