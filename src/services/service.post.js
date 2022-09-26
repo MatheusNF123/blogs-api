@@ -1,7 +1,14 @@
 const { Op } = require('sequelize');
+const Sequelize = require('sequelize');
 const { BlogPost, PostCategory, Category, User } = require('../models');
 
-const createPost = async (body, user) => {
+const config = require('../config/config');
+
+  const env = process.env.NODE_ENV || 'test';
+  const sequelize = new Sequelize(config[env]);
+
+  const createPost = async (body, user) => {
+    const postTransaction = await sequelize.transaction(async (t) => {
   const allCategory = await Category.findAll();
 
   const allCategoryIdExist = allCategory.some((el) => body.categoryIds.includes(el.id));
@@ -10,13 +17,16 @@ const createPost = async (body, user) => {
     const err = { status: 400, message: '"categoryIds" not found' };
     throw err;
   }
-  const post = await BlogPost.create({ ...body, userId: user.id });
+  const post = await BlogPost.create({ ...body, userId: user.id }, { transaction: t });
 
   await Promise.all(body.categoryIds
-    .map((id) => PostCategory.create({ postId: post.id, categoryId: id })));
+    .map((id) => PostCategory.create({ postId: post.id, categoryId: id }, { transaction: t })));
  
   return post;
+});
+return postTransaction;
 };
+
 const getAll = async () => {
   const allCategory = await BlogPost.findAll(
     { include: [
