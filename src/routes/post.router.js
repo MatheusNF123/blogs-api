@@ -1,9 +1,8 @@
 const express = require('express');
-// const { validateBody } = require('../middlewares/bodyVerify');
+
 const { controllerPost } = require('../controllers');
 const { auth } = require('../middlewares/auth');
 const { validateBodyCreatePost, validateBodyUpdatePost } = require('../middlewares/bodyVerify');
-// const { validateBodyCreateCategory } = require('../middlewares/bodyVerify');
 
 const routers = express.Router();
 

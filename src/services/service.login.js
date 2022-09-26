@@ -8,7 +8,7 @@ const login = async (body) => {
     const err = { status: 400, message: 'Invalid fields' };
     throw err;
   }
-  const token = generateToken({ email });
+  const token = generateToken({ email, id: result.id });
   return token;
 };
 

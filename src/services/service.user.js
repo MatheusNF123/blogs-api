@@ -7,8 +7,8 @@ const createUser = async (body) => {
     const err = { status: 409, message: 'User already registered' };
     throw err;
   }
-   await User.create({ ...body });
-  const token = generateToken({ email: body.email });
+  const user = await User.create({ ...body });
+  const token = generateToken({ email: body.email, id: user.id });
   return token;
 };
 
@@ -17,6 +17,7 @@ const getUser = async () => {
 
   return emailUser;
 };
+
 const getUserById = async (id) => {
   const user = await User.findByPk(id, { attributes: { exclude: 'password' },
   });
@@ -27,6 +28,7 @@ const getUserById = async (id) => {
   }
   return user;
 };
+
 const deleteUser = async (req) => {
   const { email } = req.user;
  await User.destroy({ where: { email } });

@@ -30,8 +30,6 @@ const getPostById = async (req, res, next) => {
 
 const updatePostById = async (req, res, next) => {
   try {
-    // const { id } = req.params;
-    // const { body } = req;
     const post = await servicePost.updatePostById(req);
    return res.status(200).json(post);
   } catch (error) {

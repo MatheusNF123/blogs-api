@@ -10,11 +10,10 @@ const createPost = async (body, user) => {
     const err = { status: 400, message: '"categoryIds" not found' };
     throw err;
   }
-  const usuario = await User.findOne({ where: { email: user.email } });
-  const post = await BlogPost.create({ ...body, userId: usuario.id });
+  const post = await BlogPost.create({ ...body, userId: user.id });
 
   await Promise.all(body.categoryIds
-    .map((e) => PostCategory.create({ postId: post.id, categoryId: e })));
+    .map((id) => PostCategory.create({ postId: post.id, categoryId: id })));
  
   return post;
 };
@@ -47,13 +46,12 @@ const getPostById = async (id) => {
 const updatePostById = async (req) => {
   const { body, user } = req;
   const { id } = req.params;
-  const usuario = await User.findOne({ where: { email: user.email } });
-  const autorized = usuario.id === Number(id);
+  const autorized = user.id === Number(id);
   if (!autorized) {
     const err = { status: 401, message: 'Unauthorized user' };
     throw err;
   }
-  await BlogPost.update({ ...body }, { where: { id: usuario.id } });
+  await BlogPost.update({ ...body }, { where: { id: user.id } });
   const post = await BlogPost.findByPk(id, {
     include: [
       { model: User, as: 'user', attributes: { exclude: ['password'] } },
@@ -65,7 +63,6 @@ const updatePostById = async (req) => {
 const deletePostById = async (req) => {
   const { user } = req;
   const { id } = req.params;
-  const usuario = await User.findOne({ where: { email: user.email } });
   const post = await BlogPost.findOne({ where: { id } });
   
   if (!post) {
@@ -73,7 +70,7 @@ const deletePostById = async (req) => {
     throw err;
   }
   
-  const autorized = usuario.id === post.userId;
+  const autorized = user.id === post.userId;
 console.log(autorized);
   if (!autorized) {
     const err = { status: 401, message: 'Unauthorized user' };
@@ -85,14 +82,13 @@ console.log(autorized);
 
 const getPostByBySearch = async (req) => {
   const { q } = req.query;
-  const { email } = req.user;
-  const usuario = await User.findOne({ where: { email } });
+  const { id } = req.user;
  const post = await BlogPost.findAll({  
     include: [
       { model: User, as: 'user', attributes: { exclude: ['password'] } },
       { model: Category, as: 'categories', through: { attributes: [] } },
     ],
-    where: { [Op.and]: [{ userId: usuario.id },
+    where: { [Op.and]: [{ userId: id },
       { [Op.or]: [{ title: { [Op.like]: `${q}%` } }, { content: { [Op.like]: `${q}%` } }] }] },
     
   });
