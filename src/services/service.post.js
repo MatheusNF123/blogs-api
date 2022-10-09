@@ -99,7 +99,7 @@ const getPostByBySearch = async (req) => {
       { model: Category, as: 'categories', through: { attributes: [] } },
     ],
     where: { [Op.and]: [{ userId: id },
-      { [Op.or]: [{ title: { [Op.like]: `${q}%` } }, { content: { [Op.like]: `${q}%` } }] }] },
+      { [Op.or]: [{ title: { [Op.like]: `%${q}%` } }, { content: { [Op.like]: `%${q}%` } }] }] },
     
   });
 
