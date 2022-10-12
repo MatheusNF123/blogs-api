@@ -315,15 +315,14 @@ npm run lint
 
 - [Node.js](https://nodejs.org/en/)
 - [Express.js](https://expressjs.com/)
+- [Nodemon](https://nodemon.io/)
 - [MYSQL](https://www.mysqltutorial.org/)
 - [mysql2](https://www.npmjs.com/package/mysql2)
 - [sequelize](https://sequelize.org/)
 - [jwt (jsonwebtoken)](https://jwt.io/)
 - [Docker](https://www.docker.com/)
 - [Joi](https://joi.dev/api/?v=17.6.1)
-- [Mocha](https://mochajs.org/)
-- [Chai](https://www.npmjs.com/package/chai-express)
-- [Sinon](https://sinonjs.org/)
+
 
 ## Autor 
 - [Matheus](https://github.com/MatheusNF123)
