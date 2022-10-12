@@ -23,7 +23,7 @@ npm run debug
 
 ```
 
-### Rodar aplicação sem Docker
+### Rodar aplicação na máquina
 ```
 Configurar o arquivo .evn.example com sua conexão ao MySQL.
 npm install
